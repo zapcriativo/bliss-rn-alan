@@ -8,26 +8,41 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 import AnimatedSplash from "react-native-animated-splash-screen";
+import InternetConnectionAlert from "react-native-internet-connection-alert";
 
 import Container from "./src/navigation/stack";
-import Api from './src/helper/api'
+import HealStatusScreen from "./src/screens/HealthScreen"
+import api from './src/helper/api'
 
 const App = () => {
 
   const [isLoaded, setIsLoaded] = useState(false)
+  const [healthStatus, sethealthStatus] = useState(true)
 
+  // Check API health
   useEffect(() => {
-    CheckHealthAPI()
+    api.get("/health")
+      .then(function (response) {
+
+        if (response.status <= 200 && response.status >= 300) {
+          sethealthStatus(false)
+        }
+        // sethealthStatus(false)
+
+      
+      })
+      .then(
+        setTimeout(() => {
+          setIsLoaded(true)
+        }, 1500)
+      )
   }, [])
-
-  // Function to check if backend api is working 
-  async function CheckHealthAPI() {
-    setTimeout(() => {
-      setIsLoaded(true)
-
-    }, 2000);
-  }
 
   return (
     <>
@@ -39,7 +54,17 @@ const App = () => {
         logoWidht={150}
         logoHeight={150}
       >
-        <Container />
+        {healthStatus == true ? (
+          <InternetConnectionAlert
+            onChange={(connectionState) => {
+              console.log("Connection State: ", connectionState);
+            }}
+          >
+            <Container />
+          </InternetConnectionAlert>
+        ) : (
+          <HealStatusScreen />
+        )}
       </AnimatedSplash>
     </>
   );

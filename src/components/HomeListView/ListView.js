@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
+import { Text, StyleSheet, View, FlatList, SafeAreaView, ActivityIndicator } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 
 import api from '../../helper/api'
@@ -7,11 +7,25 @@ import ItemView from './ItemView'
 
 const ListView = (props) => {
 
+  const navigation = props.navigation
+
   const [search, setSearch] = useState('');
   const [filteredData, setfilteredData] = useState([]);
   const [masterData, setmasterData] = useState([]);
 
   useEffect(() => {
+    // If new question saved, refresh item list
+    if (navigation.getParam('QuestionSaved') == true) {
+      setfilteredData([])
+      getItemsAPI()
+    }
+  }, [navigation])
+
+  useEffect(() => {
+    getItemsAPI()
+  }, []);
+
+  function getItemsAPI() {
     api.get("/questions?limit=10&offset=10&filter=filter")
       .then(function (response) {
         console.log(response.data.length)
@@ -19,16 +33,16 @@ const ListView = (props) => {
         setmasterData(response.data);
       })
       .catch((error) => console.debug(error))
-  }, []);
+  }
 
   const searchFunction = (text) => {
     if (text) {
       // Filter the masterData and Update filteredData
       const newData = masterData.filter(function (item) {
         const itemData = item.question
-          ? item.question.toUpperCase()
-          : ''.toUpperCase();
-        const textData = text.toUpperCase();
+          ? item.question
+          : '';
+        const textData = text;
         return itemData.indexOf(textData) > -1;
       });
       setfilteredData(newData);
@@ -54,33 +68,40 @@ const ListView = (props) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <SearchBar
-          round
-          onChangeText={(text) => searchFunction(text)}
-          onClear={(text) => searchFunction('')}
-          placeholder="Search here ..."
-          value={search}
-          inputContainerStyle={styles.SearchBarInputContainerStyle}
-          containerStyle={styles.inputContainerStyles}
-          placeholderTextColor={'#fff'}
-          searchIcon={
-            <Icon
-              name='search'
-              type='font-awesome'
-              color='#fff'
-              size={20}
-              iconStyle={{ marginLeft: 2, marginTop: -1 }}
-            />
-          }
-        />
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={ItemSeparator}
-          renderItem={({ item }) => <ItemView item={item} navigation={props.navigation} />}
-        />
-      </View>
+      <SearchBar
+        round
+        onChangeText={(text) => searchFunction(text)}
+        onClear={(text) => searchFunction('')}
+        placeholder="Search here ..."
+        value={search}
+        inputContainerStyle={styles.SearchBarInputContainerStyle}
+        containerStyle={styles.inputContainerStyles}
+        placeholderTextColor={'#fff'}
+        searchIcon={
+          <Icon
+            name='search'
+            type='font-awesome'
+            color='#fff'
+            size={20}
+            iconStyle={{ marginLeft: 2, marginTop: -1 }}
+          />
+        }
+      />
+      {masterData ? (
+        <View style={styles.container}>
+
+          <FlatList
+            data={filteredData}
+            keyExtractor={(item, index) => index.toString()}
+            ItemSeparatorComponent={ItemSeparator}
+            renderItem={({ item }) => <ItemView item={item} navigation={navigation} />}
+          />
+        </View>
+      ) : (
+        <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', padding: 10 }]}>
+          <ActivityIndicator size="large" color="#535CF7" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

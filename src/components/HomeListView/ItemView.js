@@ -6,10 +6,10 @@ const ItemView = (props) => {
     const item = props.item
     return (
         // Flat List Item
-        <ListItem bottomDivider onPress={() => props.navigation.navigate('newQuestion')}>
-            <Avatar title={item.question} source={item.thumb_url && { uri: item.thumb_url }} />
+        <ListItem bottomDivider containerStyle={styles.listItem} onPress={() => props.navigation.navigate('Detail',{id: item.id})}>
+            <Avatar rounded title={item.question} source={item.thumb_url && { uri: item.thumb_url }} />
             <ListItem.Content>
-                <ListItem.Title>{item.question.toUpperCase()}</ListItem.Title>
+                <ListItem.Title style={styles.listItemText}>{item.question}</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron />
         </ListItem>
@@ -17,8 +17,14 @@ const ItemView = (props) => {
 };
 
 const styles = StyleSheet.create({
+    listItem: {
+        
+    },
     itemStyle: {
         padding: 10,
+    },
+    listItemText: {
+        color: '#616161'
     }
 })
 export default ItemView

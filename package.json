@@ -10,18 +10,27 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@freakycoder/react-native-bounceable": "^0.2.4",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/netinfo": "^6.0.0",
     "axios": "^0.21.1",
+    "formik": "^2.2.6",
+    "i": "^0.3.6",
+    "moment": "^2.29.1",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-animated-splash-screen": "^2.0.5",
+    "react-native-dropdownalert": "^4.3.0",
     "react-native-elements": "^3.3.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-internet-connection-alert": "^0.1.4",
+    "react-native-poll": "^0.1.2",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-vector-icons": "^8.1.0",
     "react-navigation": "^4.4.4",
-    "react-navigation-stack": "^2.10.4"
+    "react-navigation-stack": "^2.10.4",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
