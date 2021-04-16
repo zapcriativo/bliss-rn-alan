@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { StyleSheet, View, SafeAreaView, StatusBar } from 'react-native';
 
 import { Button } from 'react-native-elements'
 import ListView from '../components/HomeListView/ListView'
 
-export default ({ props, route, navigation }) => {
+export default ({navigation}) => {
 
     return (
         <Fragment>
