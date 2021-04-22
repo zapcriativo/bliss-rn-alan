@@ -1,5 +1,5 @@
 ## Bliss Applications
-React Native Teste - Alan Ribeiro (Brazil)
+React Native - Alan Ribeiro (Brazil)
 
 ------------
 
