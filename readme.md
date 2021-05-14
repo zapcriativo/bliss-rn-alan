@@ -5,7 +5,7 @@ React Native - Alan Ribeiro (Brazil)
 
 ## Installation 
 
-In project root folder run the commands above in terminal to install node dependencies modules
+In the project's root folder run the commands above on the terminal to install node dependencies modules
 
 ```
 npm install
@@ -27,7 +27,7 @@ npx react-native run-android
 ```
 ## Demonstration of App
 
-You can view this app working in this link
+You can view this app working at this link
 
 https://youtu.be/IqTXXONEYBc
 
